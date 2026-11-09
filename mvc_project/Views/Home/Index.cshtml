@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="rental-home">
+
+    <!-- Hero Section -->
+    <section class="rental-hero">
+        <div class="hero-content">
+            <span class="hero-label">YOUR NEXT CHAPTER STARTS HERE</span>
+
+            <h1>Find a Home<br />That Feels Like <span>Yours.</span></h1>
+
+            <p>
+                Discover rental homes that fit your lifestyle.
+                Find your space, settle in, and make it home.
+            </p>
+
+            <div class="hero-actions">
+                <a href="@Url.Action("login_pageload", "login")"
+                   class="btn-rental-primary">Explore Properties &nbsp; →</a>
+
+                <a href="@Url.Action("ownerreg_pageload", "ownerreg")"
+                   class="btn-rental-outline">List Your Property</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="rental-intro text-center">
+        <span class="rental-label">WELCOME TO YOUR RENTAL JOURNEY</span>
+        <h2>A Better Way to Find Your Next Home</h2>
+        <p>
+            Whether you are looking for a place to live or a tenant for
+            your property, we make the rental journey simple.
+        </p>
+    </section>
+
+    <!-- Features -->
+    <section class="rental-features">
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="rental-feature-card">
+                    <div class="feature-icon">&#8962;</div>
+                    <h3>Find Your Home</h3>
+                    <p>
+                        Explore available rental properties and discover
+                        a place that suits your needs and budget.
+                    </p>
+                    <a href="@Url.Action("login_pageload", "login")">
+                        Find a Property →
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="rental-feature-card">
+                    <div class="feature-icon">&#9998;</div>
+                    <h3>List Your Property</h3>
+                    <p>
+                        Own a property? Register as an owner and start
+                        sharing your rental listing with potential tenants.
+                    </p>
+                    <a href="@Url.Action("ownerreg_pageload", "ownerreg")">
+                        Become an Owner →
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="rental-feature-card">
+                    <div class="feature-icon">&#10003;</div>
+                    <h3>Manage Applications</h3>
+                    <p>
+                        Submit rental applications and follow their status
+                        through your tenant account.
+                    </p>
+                    <a href="@Url.Action("login_pageload", "login")">
+                        Get Started →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="rental-cta">
+        <div>
+            <h2>Your next home is waiting.</h2>
+            <p>Start exploring rental opportunities today.</p>
+        </div>
+
+        <a href="@Url.Action("login_pageload", "login")"
+           class="btn-rental-cta">Login to Get Started &nbsp; →</a>
+    </section>
+
+</div>

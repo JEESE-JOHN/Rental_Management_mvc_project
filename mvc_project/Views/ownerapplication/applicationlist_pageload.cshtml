@@ -1,0 +1,44 @@
+﻿@model IEnumerable<mvc_project.Models.ownerapplicationcls>
+
+@{
+    ViewBag.Title = "Tenant Applications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tenant Applications</h2>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <div class="card" style="padding:15px; margin-bottom:20px; border:1px solid #ccc;">
+            <h3>@item.property_title</h3>
+
+            <p><strong>Tenant Name:</strong> @item.tenant_name</p>
+            <p><strong>Email:</strong> @item.email</p>
+            <p><strong>Phone:</strong> @item.phone</p>
+            <p><strong>Address:</strong> @item.address</p>
+            <p><strong>Occupation:</strong> @item.occupation</p>
+            <p><strong>Application Date:</strong> @item.application_date.ToString("dd-MM-yyyy")</p>
+            <p><strong>Message:</strong> @item.ap_message</p>
+
+            @if (!string.IsNullOrEmpty(item.document))
+            {
+                <p>
+                    <strong>Document:</strong>
+                    <a href="@Url.Content(item.document)" target="_blank">View Document</a>
+                </p>
+            }
+            else
+            {
+                <p><strong>Document:</strong> Not uploaded</p>
+            }
+
+            <p><strong>Application Status:</strong> @item.app_status</p>
+        </div>
+    }
+}
+else
+{
+    <p>No applications found for this property.</p>
+}

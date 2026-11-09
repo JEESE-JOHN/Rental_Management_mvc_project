@@ -1,0 +1,54 @@
+﻿@model mvc_project.Models.admininsertcls
+@{
+    ViewBag.Title = "insertadmin_pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @using (Html.BeginForm("insertadmin_click", "admininsert", FormMethod.Post))
+    {
+        <div>
+            <label>Name:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.name)
+            @Html.ValidationMessageFor(m => m.name)
+        </div>
+
+        <div>
+            <label>Email:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.email)
+            @Html.ValidationMessageFor(m => m.email)
+        </div>
+
+        <div>
+            <label>Username:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.username)
+            @Html.ValidationMessageFor(m => m.username)
+        </div>
+
+        <div>
+            <label>Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.pass)
+            @Html.ValidationMessageFor(m => m.pass)
+        </div>
+
+        <div>
+            <label>Confirm Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.cpassword)
+            @Html.ValidationMessageFor(m => m.cpassword)
+        </div>
+
+        <input type="submit" value="Insert" />
+
+        @Html.DisplayFor(m => m.adminmsg)
+    }
+</div>

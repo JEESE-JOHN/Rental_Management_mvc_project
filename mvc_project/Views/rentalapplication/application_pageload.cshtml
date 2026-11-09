@@ -1,0 +1,74 @@
+﻿
+@model mvc_project.Models.rentalapplicationcls
+
+@{
+    ViewBag.Title = "Apply for Property";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Property Details</h2>
+
+@if (Model.propertydetails != null)
+{
+    <h3>@Model.propertydetails.property_title</h3>
+
+    <p><b>Description:</b> @Model.propertydetails.description</p>
+    <p><b>Location:</b> @Model.propertydetails.location</p>
+    <p><b>Rent:</b> ₹@Model.propertydetails.rent</p>
+    <p><b>Bedrooms:</b> @Model.propertydetails.bedrooms</p>
+    <p><b>Bathrooms:</b> @Model.propertydetails.bathrooms</p>
+    <p><b>Area:</b> @Model.propertydetails.area</p>
+    <p><b>Available From:</b> @Model.propertydetails.available_from.ToShortDateString()</p>
+    <p><b>Lease Duration:</b> @Model.propertydetails.lease_duration</p>
+
+    if (!string.IsNullOrEmpty(Model.propertydetails.photo1))
+    {
+        <img src="@Url.Content(Model.propertydetails.photo1)"
+             width="200" height="150" />
+    }
+
+    if (!string.IsNullOrEmpty(Model.propertydetails.photo2))
+    {
+        <img src="@Url.Content(Model.propertydetails.photo2)"
+             width="200" height="150" />
+    }
+}
+
+<hr />
+
+<h2>Rental Application</h2>
+
+
+@if (ViewBag.isapplied == 0)
+{
+    using (Html.BeginForm("application_click", "rentalapplication",
+        FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            @Html.LabelFor(m => m.ap_message, "Application Message")
+            @Html.TextAreaFor(m => m.ap_message)
+            @Html.ValidationMessageFor(m => m.ap_message)
+        </div>
+
+        <br />
+
+        <div>
+            <label>Upload Document</label>
+            <input type="file" name="file" />
+        </div>
+
+        <br />
+
+        @Html.HiddenFor(m => m.property_id)
+
+        <input type="submit" value="Submit Application" />
+    }
+}
+else
+{
+    <p>You have already applied for this property.</p>
+}
+
+<br />
+
+@Html.ActionLink("Back to Home", "tenanthome", "login")

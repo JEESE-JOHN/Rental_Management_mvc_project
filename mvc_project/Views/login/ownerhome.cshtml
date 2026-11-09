@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Owner Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-top:40px; margin-bottom:40px;">
+
+    <div class="text-center">
+        <h2>My Properties</h2>
+        <hr />
+        <p>
+            @Html.ActionLink(
+                "Add Property",
+                "property_pageload",
+                "property",
+                null,
+                new { @class = "btn btn-primary btn-lg" }
+            )
+        </p>
+    </div>
+
+    <br />
+
+    @if (ViewBag.userdetails != null && ViewBag.userdetails.Count > 0)
+    {
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h4 class="text-center" style="margin:5px;">My Property Details</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover text-center">
+
+                        <thead>
+                            <tr>
+                                <th class="text-center">Property ID</th>
+                                <th class="text-center">Title</th>
+                                <th class="text-center">Location</th>
+                                <th class="text-center">Rent</th>
+                                <th class="text-center">Bedrooms</th>
+                                <th class="text-center">Photo 1</th>
+                                <th class="text-center">Photo 2</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Applications</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in ViewBag.userdetails)
+                            {
+                                <tr>
+                                    <td>@item.property_id</td>
+                                    <td>@item.property_title</td>
+                                    <td>@item.location</td>
+                                    <td>₹@item.rent</td>
+                                    <td>@item.bedrooms</td>
+
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.photo1))
+                                        {
+                                            <img src="@Url.Content(item.photo1)"
+                                                 class="img-thumbnail"
+                                                 style="width:100px; height:80px; object-fit:cover;" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No image</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.photo2))
+                                        {
+                                            <img src="@Url.Content(item.photo2)"
+                                                 class="img-thumbnail"
+                                                 style="width:100px; height:80px; object-fit:cover;" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No image</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @item.property_status
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink(
+                                            "View Applications",
+                                            "applicationlist_pageload",
+                                            "ownerapplication",
+                                            new { id = item.property_id },
+                                            new { @class = "btn btn-success btn-sm" }
+                                        )
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <h4>No properties added yet.</h4>
+            <p>Click the Add Property button to list your first property.</p>
+        </div>
+    }
+
+</div>

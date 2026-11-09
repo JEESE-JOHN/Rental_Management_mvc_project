@@ -1,0 +1,611 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mvc_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="int" Nullable="false" />
+          <Property Name="ad_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ad_email" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Name="logid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="regid" Type="int" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pwd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="usertype" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="owner">
+          <Key>
+            <PropertyRef Name="owner_id" />
+          </Key>
+          <Property Name="owner_id" Type="int" Nullable="false" />
+          <Property Name="own_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="own_email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="own_address" Type="varchar" MaxLength="250" />
+          <Property Name="own_phone" Type="varchar" MaxLength="20" />
+          <Property Name="own_status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="property">
+          <Key>
+            <PropertyRef Name="property_id" />
+          </Key>
+          <Property Name="property_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="owner_id" Type="int" />
+          <Property Name="property_title" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="location" Type="varchar" MaxLength="150" />
+          <Property Name="rent" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="bedrooms" Type="int" />
+          <Property Name="bathrooms" Type="int" />
+          <Property Name="area" Type="int" />
+          <Property Name="photo1" Type="varchar" MaxLength="200" />
+          <Property Name="photo2" Type="varchar" MaxLength="200" />
+          <Property Name="available_from" Type="date" />
+          <Property Name="lease_duration" Type="varchar" MaxLength="50" />
+          <Property Name="property_status" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="rental_application">
+          <Key>
+            <PropertyRef Name="app_id" />
+          </Key>
+          <Property Name="app_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenant_id" Type="int" />
+          <Property Name="property_id" Type="int" />
+          <Property Name="application_date" Type="date" />
+          <Property Name="ap_message" Type="varchar" MaxLength="500" />
+          <Property Name="document" Type="varchar" MaxLength="400" />
+          <Property Name="app_status" Type="int" />
+        </EntityType>
+        <EntityType Name="tenant">
+          <Key>
+            <PropertyRef Name="t_id" />
+          </Key>
+          <Property Name="t_id" Type="int" Nullable="false" />
+          <Property Name="t_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="t_age" Type="int" />
+          <Property Name="t_email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="t_phone" Type="varchar" MaxLength="20" />
+          <Property Name="t_address" Type="varchar" MaxLength="250" />
+          <Property Name="t_occupation" Type="varchar" MaxLength="50" />
+          <Property Name="t_status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Function Name="sp_adminreg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="aid" Type="int" Mode="In" />
+          <Parameter Name="ana" Type="varchar" Mode="In" />
+          <Parameter Name="aemail" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CountTenantAppliedPropertyWithID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tenant_id" Type="int" Mode="In" />
+          <Parameter Name="property_id" Type="int" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="SP_GetPropertyDataWithID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="property_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="uname" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="utype" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_logincountid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_loginid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_logintype" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_maxidlogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ownerreg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="oid" Type="int" Mode="In" />
+          <Parameter Name="ona" Type="varchar" Mode="In" />
+          <Parameter Name="oemail" Type="varchar" Mode="In" />
+          <Parameter Name="oaddr" Type="varchar" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_propertyinsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="property_title" Type="varchar" Mode="In" />
+          <Parameter Name="description" Type="varchar" Mode="In" />
+          <Parameter Name="location" Type="varchar" Mode="In" />
+          <Parameter Name="rent" Type="decimal" Mode="In" />
+          <Parameter Name="bedrooms" Type="int" Mode="In" />
+          <Parameter Name="bathrooms" Type="int" Mode="In" />
+          <Parameter Name="area" Type="int" Mode="In" />
+          <Parameter Name="photo1" Type="varchar" Mode="In" />
+          <Parameter Name="photo2" Type="varchar" Mode="In" />
+          <Parameter Name="available_from" Type="date" Mode="In" />
+          <Parameter Name="lease_duration" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_rentalapplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tid" Type="int" Mode="In" />
+          <Parameter Name="pid" Type="int" Mode="In" />
+          <Parameter Name="msg" Type="varchar" Mode="In" />
+          <Parameter Name="doc" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_rentalsearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="qry" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_selectallproperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_SelectApplicationsByProperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="property_id" Type="int" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_selectpropertybyowner" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_tenantreg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tid" Type="int" Mode="In" />
+          <Parameter Name="tname" Type="varchar" Mode="In" />
+          <Parameter Name="tage" Type="int" Mode="In" />
+          <Parameter Name="temail" Type="varchar" Mode="In" />
+          <Parameter Name="tphone" Type="varchar" Mode="In" />
+          <Parameter Name="taddress" Type="varchar" Mode="In" />
+          <Parameter Name="toccupation" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="mvc_projectModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="owner" EntityType="Self.owner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="property" EntityType="Self.property" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rental_application" EntityType="Self.rental_application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tenant" EntityType="Self.tenant" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mvc_projectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="Int32" Nullable="false" />
+          <Property Name="ad_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ad_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="logid" />
+          </Key>
+          <Property Name="logid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="regid" Type="Int32" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usertype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="owner">
+          <Key>
+            <PropertyRef Name="owner_id" />
+          </Key>
+          <Property Name="owner_id" Type="Int32" Nullable="false" />
+          <Property Name="own_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="own_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="own_address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="own_phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="own_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="property">
+          <Key>
+            <PropertyRef Name="property_id" />
+          </Key>
+          <Property Name="property_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="owner_id" Type="Int32" />
+          <Property Name="property_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="rent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="bedrooms" Type="Int32" />
+          <Property Name="bathrooms" Type="Int32" />
+          <Property Name="area" Type="Int32" />
+          <Property Name="photo1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="photo2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="available_from" Type="DateTime" Precision="0" />
+          <Property Name="lease_duration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="property_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="rental_application">
+          <Key>
+            <PropertyRef Name="app_id" />
+          </Key>
+          <Property Name="app_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenant_id" Type="Int32" />
+          <Property Name="property_id" Type="Int32" />
+          <Property Name="application_date" Type="DateTime" Precision="0" />
+          <Property Name="ap_message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="document" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="app_status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tenant">
+          <Key>
+            <PropertyRef Name="t_id" />
+          </Key>
+          <Property Name="t_id" Type="Int32" Nullable="false" />
+          <Property Name="t_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="t_age" Type="Int32" />
+          <Property Name="t_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="t_phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="t_address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="t_occupation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="mvc_projectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admins" EntityType="Self.admin" />
+          <EntitySet Name="logins" EntityType="Self.login" />
+          <EntitySet Name="owners" EntityType="Self.owner" />
+          <EntitySet Name="properties" EntityType="Self.property" />
+          <EntitySet Name="rental_application" EntityType="Self.rental_application" />
+          <EntitySet Name="tenants" EntityType="Self.tenant" />
+          <FunctionImport Name="sp_adminreg">
+            <Parameter Name="aid" Mode="In" Type="Int32" />
+            <Parameter Name="ana" Mode="In" Type="String" />
+            <Parameter Name="aemail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_login">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="uname" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="utype" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_logincountid" ReturnType="Collection(Int32)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_loginid" ReturnType="Collection(Int32)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_logintype" ReturnType="Collection(String)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_maxidlogin" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="sp_ownerreg">
+            <Parameter Name="oid" Mode="In" Type="Int32" />
+            <Parameter Name="ona" Mode="In" Type="String" />
+            <Parameter Name="oemail" Mode="In" Type="String" />
+            <Parameter Name="oaddr" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tenantreg">
+            <Parameter Name="tid" Mode="In" Type="Int32" />
+            <Parameter Name="tname" Mode="In" Type="String" />
+            <Parameter Name="tage" Mode="In" Type="Int32" />
+            <Parameter Name="temail" Mode="In" Type="String" />
+            <Parameter Name="tphone" Mode="In" Type="String" />
+            <Parameter Name="taddress" Mode="In" Type="String" />
+            <Parameter Name="toccupation" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_propertyinsert">
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="property_title" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="location" Mode="In" Type="String" />
+            <Parameter Name="rent" Mode="In" Type="Decimal" />
+            <Parameter Name="bedrooms" Mode="In" Type="Int32" />
+            <Parameter Name="bathrooms" Mode="In" Type="Int32" />
+            <Parameter Name="area" Mode="In" Type="Int32" />
+            <Parameter Name="photo1" Mode="In" Type="String" />
+            <Parameter Name="photo2" Mode="In" Type="String" />
+            <Parameter Name="available_from" Mode="In" Type="DateTime" />
+            <Parameter Name="lease_duration" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_selectproperty" ReturnType="Collection(mvc_projectModel.sp_selectproperty_Result)" />
+          <FunctionImport Name="sp_selectpropertybyowner" ReturnType="Collection(mvc_projectModel.sp_selectpropertybyowner_Result)">
+          <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_selectallproperty" ReturnType="Collection(mvc_projectModel.sp_selectallproperty_Result)" />
+          <FunctionImport Name="SP_CountTenantAppliedPropertyWithID">
+            <Parameter Name="tenant_id" Mode="In" Type="Int32" />
+            <Parameter Name="property_id" Mode="In" Type="Int32" />
+            <Parameter Name="status" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetPropertyDataWithID" ReturnType="Collection(mvc_projectModel.SP_GetPropertyDataWithID_Result)">
+          <Parameter Name="property_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_rentalapplication">
+            <Parameter Name="tid" Mode="In" Type="Int32" />
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+            <Parameter Name="msg" Mode="In" Type="String" />
+            <Parameter Name="doc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_rentalsearch">
+          <Parameter Name="qry" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SelectApplicationsByProperty" ReturnType="Collection(mvc_projectModel.SP_SelectApplicationsByProperty_Result)">
+            <Parameter Name="property_id" Mode="In" Type="Int32" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_selectproperty_Result">
+          <Property Type="Int32" Name="property_id" Nullable="false" />
+          <Property Type="Int32" Name="owner_id" Nullable="true" />
+          <Property Type="String" Name="property_title" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="location" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="rent" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="bedrooms" Nullable="true" />
+          <Property Type="Int32" Name="bathrooms" Nullable="true" />
+          <Property Type="Int32" Name="area" Nullable="true" />
+          <Property Type="String" Name="photo1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="photo2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="available_from" Nullable="true" />
+          <Property Type="String" Name="lease_duration" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="property_status" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_selectpropertybyowner_Result">
+          <Property Type="Int32" Name="property_id" Nullable="false" />
+          <Property Type="Int32" Name="owner_id" Nullable="true" />
+          <Property Type="String" Name="property_title" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="location" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="rent" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="bedrooms" Nullable="true" />
+          <Property Type="Int32" Name="bathrooms" Nullable="true" />
+          <Property Type="Int32" Name="area" Nullable="true" />
+          <Property Type="String" Name="photo1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="photo2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="available_from" Nullable="true" />
+          <Property Type="String" Name="lease_duration" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="property_status" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_selectallproperty_Result">
+          <Property Type="Int32" Name="property_id" Nullable="false" />
+          <Property Type="Int32" Name="owner_id" Nullable="true" />
+          <Property Type="String" Name="property_title" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="location" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="rent" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="bedrooms" Nullable="true" />
+          <Property Type="Int32" Name="bathrooms" Nullable="true" />
+          <Property Type="Int32" Name="area" Nullable="true" />
+          <Property Type="String" Name="photo1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="photo2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="available_from" Nullable="true" />
+          <Property Type="String" Name="lease_duration" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="property_status" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="SP_GetPropertyDataWithID_Result">
+          <Property Type="Int32" Name="property_id" Nullable="false" />
+          <Property Type="Int32" Name="owner_id" Nullable="true" />
+          <Property Type="String" Name="property_title" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="location" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="rent" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="bedrooms" Nullable="true" />
+          <Property Type="Int32" Name="bathrooms" Nullable="true" />
+          <Property Type="Int32" Name="area" Nullable="true" />
+          <Property Type="String" Name="photo1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="photo2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="available_from" Nullable="true" />
+          <Property Type="String" Name="lease_duration" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="property_status" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="SP_SelectApplicationsByProperty_Result">
+          <Property Type="Int32" Name="app_id" Nullable="false" />
+          <Property Type="Int32" Name="tenant_id" Nullable="true" />
+          <Property Type="String" Name="tenant_name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="address" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="occupation" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="property_id" Nullable="true" />
+          <Property Type="String" Name="property_title" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="application_date" Nullable="true" />
+          <Property Type="String" Name="ap_message" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="document" Nullable="true" MaxLength="400" />
+          <Property Type="Int32" Name="app_status" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mvc_projectModelStoreContainer" CdmEntityContainer="mvc_projectEntities">
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="mvc_projectModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="ad_id" ColumnName="ad_id" />
+                <ScalarProperty Name="ad_name" ColumnName="ad_name" />
+                <ScalarProperty Name="ad_email" ColumnName="ad_email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="mvc_projectModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="logid" ColumnName="logid" />
+                <ScalarProperty Name="regid" ColumnName="regid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="usertype" ColumnName="usertype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="owners">
+            <EntityTypeMapping TypeName="mvc_projectModel.owner">
+              <MappingFragment StoreEntitySet="owner">
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="own_name" ColumnName="own_name" />
+                <ScalarProperty Name="own_email" ColumnName="own_email" />
+                <ScalarProperty Name="own_address" ColumnName="own_address" />
+                <ScalarProperty Name="own_phone" ColumnName="own_phone" />
+                <ScalarProperty Name="own_status" ColumnName="own_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="properties">
+            <EntityTypeMapping TypeName="mvc_projectModel.property">
+              <MappingFragment StoreEntitySet="property">
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="property_title" ColumnName="property_title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="rent" ColumnName="rent" />
+                <ScalarProperty Name="bedrooms" ColumnName="bedrooms" />
+                <ScalarProperty Name="bathrooms" ColumnName="bathrooms" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="available_from" ColumnName="available_from" />
+                <ScalarProperty Name="lease_duration" ColumnName="lease_duration" />
+                <ScalarProperty Name="property_status" ColumnName="property_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rental_application">
+            <EntityTypeMapping TypeName="mvc_projectModel.rental_application">
+              <MappingFragment StoreEntitySet="rental_application">
+                <ScalarProperty Name="app_id" ColumnName="app_id" />
+                <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="application_date" ColumnName="application_date" />
+                <ScalarProperty Name="ap_message" ColumnName="ap_message" />
+                <ScalarProperty Name="document" ColumnName="document" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tenants">
+            <EntityTypeMapping TypeName="mvc_projectModel.tenant">
+              <MappingFragment StoreEntitySet="tenant">
+                <ScalarProperty Name="t_id" ColumnName="t_id" />
+                <ScalarProperty Name="t_name" ColumnName="t_name" />
+                <ScalarProperty Name="t_age" ColumnName="t_age" />
+                <ScalarProperty Name="t_email" ColumnName="t_email" />
+                <ScalarProperty Name="t_phone" ColumnName="t_phone" />
+                <ScalarProperty Name="t_address" ColumnName="t_address" />
+                <ScalarProperty Name="t_occupation" ColumnName="t_occupation" />
+                <ScalarProperty Name="t_status" ColumnName="t_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_adminreg" FunctionName="mvc_projectModel.Store.sp_adminreg" />
+          <FunctionImportMapping FunctionImportName="sp_login" FunctionName="mvc_projectModel.Store.sp_login" />
+          <FunctionImportMapping FunctionImportName="sp_logincountid" FunctionName="mvc_projectModel.Store.sp_logincountid" />
+          <FunctionImportMapping FunctionImportName="sp_loginid" FunctionName="mvc_projectModel.Store.sp_loginid" />
+          <FunctionImportMapping FunctionImportName="sp_logintype" FunctionName="mvc_projectModel.Store.sp_logintype" />
+          <FunctionImportMapping FunctionImportName="sp_maxidlogin" FunctionName="mvc_projectModel.Store.sp_maxidlogin" />
+          <FunctionImportMapping FunctionImportName="sp_ownerreg" FunctionName="mvc_projectModel.Store.sp_ownerreg" />
+          <FunctionImportMapping FunctionImportName="sp_tenantreg" FunctionName="mvc_projectModel.Store.sp_tenantreg" />
+          <FunctionImportMapping FunctionImportName="sp_propertyinsert" FunctionName="mvc_projectModel.Store.sp_propertyinsert" />
+          <FunctionImportMapping FunctionImportName="sp_selectpropertybyowner" FunctionName="mvc_projectModel.Store.sp_selectpropertybyowner">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mvc_projectModel.sp_selectpropertybyowner_Result">
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="property_title" ColumnName="property_title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="rent" ColumnName="rent" />
+                <ScalarProperty Name="bedrooms" ColumnName="bedrooms" />
+                <ScalarProperty Name="bathrooms" ColumnName="bathrooms" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="available_from" ColumnName="available_from" />
+                <ScalarProperty Name="lease_duration" ColumnName="lease_duration" />
+                <ScalarProperty Name="property_status" ColumnName="property_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_selectallproperty" FunctionName="mvc_projectModel.Store.sp_selectallproperty">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mvc_projectModel.sp_selectallproperty_Result">
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="property_title" ColumnName="property_title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="rent" ColumnName="rent" />
+                <ScalarProperty Name="bedrooms" ColumnName="bedrooms" />
+                <ScalarProperty Name="bathrooms" ColumnName="bathrooms" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="available_from" ColumnName="available_from" />
+                <ScalarProperty Name="lease_duration" ColumnName="lease_duration" />
+                <ScalarProperty Name="property_status" ColumnName="property_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CountTenantAppliedPropertyWithID" FunctionName="mvc_projectModel.Store.SP_CountTenantAppliedPropertyWithID" />
+          <FunctionImportMapping FunctionImportName="SP_GetPropertyDataWithID" FunctionName="mvc_projectModel.Store.SP_GetPropertyDataWithID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mvc_projectModel.SP_GetPropertyDataWithID_Result">
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="property_title" ColumnName="property_title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="rent" ColumnName="rent" />
+                <ScalarProperty Name="bedrooms" ColumnName="bedrooms" />
+                <ScalarProperty Name="bathrooms" ColumnName="bathrooms" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="photo1" ColumnName="photo1" />
+                <ScalarProperty Name="photo2" ColumnName="photo2" />
+                <ScalarProperty Name="available_from" ColumnName="available_from" />
+                <ScalarProperty Name="lease_duration" ColumnName="lease_duration" />
+                <ScalarProperty Name="property_status" ColumnName="property_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_rentalapplication" FunctionName="mvc_projectModel.Store.sp_rentalapplication" />
+          <FunctionImportMapping FunctionImportName="sp_rentalsearch" FunctionName="mvc_projectModel.Store.sp_rentalsearch" />
+          <FunctionImportMapping FunctionImportName="SP_SelectApplicationsByProperty" FunctionName="mvc_projectModel.Store.SP_SelectApplicationsByProperty">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mvc_projectModel.SP_SelectApplicationsByProperty_Result">
+                <ScalarProperty Name="app_id" ColumnName="app_id" />
+                <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
+                <ScalarProperty Name="tenant_name" ColumnName="tenant_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+                <ScalarProperty Name="property_title" ColumnName="property_title" />
+                <ScalarProperty Name="application_date" ColumnName="application_date" />
+                <ScalarProperty Name="ap_message" ColumnName="ap_message" />
+                <ScalarProperty Name="document" ColumnName="document" />
+                <ScalarProperty Name="app_status" ColumnName="app_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
